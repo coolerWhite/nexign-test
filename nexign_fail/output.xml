@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.10.12 on linux)" generated="2024-11-21T20:47:12.682609" rpa="false" schemaversion="5">
+<suite id="s1" name="Test" source="/home/vic/python/nexign/test.robot">
+<test id="s1-t1" name="GetLocalTime" line="10">
+<kw name="Get Current Date" owner="DateTime">
+<msg time="2024-11-21T20:47:12.777837" level="INFO">${timeLocal} = 2024-11-21T20:47</msg>
+<var>${timeLocal}</var>
+<arg>result_format=%Y-%m-%dT%H:%M</arg>
+<doc>Returns current local or UTC time with an optional increment.</doc>
+<status status="PASS" start="2024-11-21T20:47:12.777543" elapsed="0.000324"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-11-21T20:47:12.778155" level="INFO">Local time is: 2024-11-21T20:47</msg>
+<arg>Local time is: ${timeLocal}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-11-21T20:47:12.778021" elapsed="0.000170"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-11-21T20:47:12.903720" level="INFO">GET Request : url=https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow 
+ path_url=/api/Time/current/zone?timeZone=Europe/Moscow 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg time="2024-11-21T20:47:12.903829" level="INFO">GET Response : url=https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Moscow 
+ status=200, reason=OK 
+ headers={'Server': 'nginx/1.27.0', 'Date': 'Thu, 21 Nov 2024 20:47:12 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding'} 
+ body={"year":2024,"month":11,"day":21,"hour":23,"minute":47,"seconds":12,"milliSeconds":880,"dateTime":"2024-11-21T23:47:12.8806051","date":"11/21/2024","time":"23:47","timeZone":"Europe/Moscow","dayOfWeek":"Thursday","dstActive":false} 
+ </msg>
+<msg time="2024-11-21T20:47:12.903947" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${URL}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-11-21T20:47:12.778308" elapsed="0.125661"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-11-21T20:47:12.904708" level="INFO">${timeMoscow} = 2024-11-21T23:47</msg>
+<var>${timeMoscow}</var>
+<arg>"${response.json()['dateTime']}"[:16]</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-11-21T20:47:12.904215" elapsed="0.000514"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-11-21T20:47:12.904978" level="INFO">Current time in Moscow: 2024-11-21T23:47</msg>
+<arg>Current time in Moscow: ${timeMoscow}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-11-21T20:47:12.904868" elapsed="0.000159"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<kw name="Fail" owner="BuiltIn">
+<msg time="2024-11-21T20:47:12.905500" level="FAIL">Локальное время не совпадает с временем на удалённом сервере</msg>
+<arg>Локальное время не совпадает с временем на удалённом сервере</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="FAIL" start="2024-11-21T20:47:12.905350" elapsed="0.000214">Локальное время не совпадает с временем на удалённом сервере</status>
+</kw>
+<arg>"${timeMoscow}" != "${timeLocal}"</arg>
+<arg>Fail</arg>
+<arg>Локальное время не совпадает с временем на удалённом сервере</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="FAIL" start="2024-11-21T20:47:12.905150" elapsed="0.000455">Локальное время не совпадает с временем на удалённом сервере</status>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Время совпадает: ${timeMoscow} и ${timeLocal}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2024-11-21T20:47:12.905725" elapsed="0.000014"/>
+</kw>
+<status status="FAIL" start="2024-11-21T20:47:12.776880" elapsed="0.129000">Локальное время не совпадает с временем на удалённом сервере</status>
+</test>
+<status status="FAIL" start="2024-11-21T20:47:12.683377" elapsed="0.222855"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Test">Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
